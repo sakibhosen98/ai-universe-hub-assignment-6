@@ -6,7 +6,15 @@ const loadCards = () =>{
 
 const showCards = (cards) =>{
   const cardsContainer = document.getElementById('cards-container');
-  cards = cards.slice(0, 6)
+// Display 6 cards only
+const showMore = document.getElementById('show-more');
+if(cards.length > 6){
+  cards = cards.slice(0, 6);
+  showMore.classList.remove('d-none');
+}
+else{
+  showMore.classList.add('d-none');
+}
   cards.forEach(card => {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('col');
@@ -27,7 +35,7 @@ const showCards = (cards) =>{
         <img src="./img/date.png" class="img-fluid" alt="..." height-"10" width="30">
         <p>${card.published_in}</p>
         </div>
-        <img src="./img/arrow.png" class="img-fluid" alt="..." height-"15" width="30">
+        <img onclick ="fetchNewDetail('${card.id}')" src="./img/arrow.png" class="img-fluid" alt="..." height-"15" width="30" data-bs-toggle="modal" data-bs-target="#exampleModal">
       </div>
     </div>
   </div>
@@ -36,6 +44,58 @@ const showCards = (cards) =>{
   });
   
 }
+
+// fetch new url for id
+
+const fetchNewDetail = new_id =>{
+  let url = `https://openapi.programming-hero.com/api/ai/tool/${new_id}`
+  fetch(url)
+  .then(res => res.json())
+  .then(data =>showCardDetail(data.data))
+}
+
+
+// Modal ------------------------
+const showCardDetail = cardDetail =>{
+  const {description,image_link,features,input_output_examples,integrations,pricing} = cardDetail;
+  console.log(cardDetail)
+  const modalBody = document.getElementById('modal-body').innerHTML = `
+    <div>
+      <h5>${description}</h5>
+      <div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+      <div>
+        <div>
+          <h3>Features</h3>
+            <ul>
+            </ul>
+        </div>
+        <div></div>
+      </div>
+    </div>
+
+    <div>
+    <div class="card">
+    <img src=${image_link[0]} class="card-img-top" alt="...">
+    <div class="card-body">
+      </h2> </h2>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    </div>
+  </div>
+    </div>
+
+  `
+}
+// -------------------------
+// const toggleSpinner = isLoading =>{
+//   const loaderSection = document.getElementById('loader');
+//   if(isLoading){
+//     loaderSection.classList.remove('d-none');
+//   }
+// }
 
 
 loadCards();
