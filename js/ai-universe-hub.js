@@ -13,7 +13,7 @@ if(cards.length > 6){
   showMore.classList.remove('d-none');
 }
 else{
-  showMore.classList.add('d-none');
+  showMore.classList.add('d-none')
 }
   cards.forEach(card => {
     const cardDiv = document.createElement('div');
@@ -42,9 +42,18 @@ else{
     `
     cardsContainer.appendChild(cardDiv)
   });
+
+  // stop spinner loader
+  toggleSpinner(false)
   
 }
-
+// ---------------------------------call function
+const CardDescription = (allData) =>{
+  for(const singleData of allData.length){
+    console.log(singleData)
+  }
+  return singleData;
+}
 // fetch new url for id
 
 const fetchNewDetail = new_id =>{
@@ -59,30 +68,48 @@ const fetchNewDetail = new_id =>{
 const showCardDetail = cardDetail =>{
   const {description,image_link,features,input_output_examples,integrations,pricing} = cardDetail;
   console.log(cardDetail)
-  const modalBody = document.getElementById('modal-body').innerHTML = `
-    <div>
-      <h5>${description}</h5>
+  const modalBody = document.getElementById('modal-body');
+
+  modalBody.innerHTML = `
+    <div class="border p-3">
+      <h6 class="fw-bold">${description}</h6>
       <div>
-        <div></div>
-        <div></div>
+        <div class="d-flex justify-content-between align-items-center gap-2">
+          <p class="border p-2">${pricing[0].price} ${pricing[0].plan}</p>
+          <p class="border p-2">${pricing[1].price} ${pricing[1].plan}</p>
+          <p class="border p-2">${pricing[2].price} ${pricing[2].plan}</p>
+        </div>
+        <div>
+        </div>
         <div></div>
       </div>
-      <div>
+      <div class="d-flex">
         <div>
           <h3>Features</h3>
             <ul>
+              <li>${features[1].feature_name}</li>
+              <li>${features[2].feature_name}</li>
+              <li>${features[3].feature_name}</li>
             </ul>
         </div>
-        <div></div>
+        <div>
+          <h3>Integrations</h3>
+          <ul>
+            <li>${integrations[0] ? integrations[0]: 'Data not found'}</li>
+            <li>${integrations[1] ? integrations[1]: 'Data not found'}</li>
+            <li>${integrations[2] ? integrations[0]: 'Data not found'}</li>
+          </ul>
+        </div>
       </div>
     </div>
 
     <div>
-    <div class="card">
+    <div class="card positon-relative">
     <img src=${image_link[0]} class="card-img-top" alt="...">
+    <button type="button" class="btn btn-danger positon-absolute top-0 end-0" data-bs-dismiss="modal">Close</button>
     <div class="card-body">
-      </h2> </h2>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      </h4 class="fw-bold fs-3">${input_output_examples[0].input}</h4>
+      <p class="card-text">${input_output_examples[0].output}</p>
     </div>
   </div>
     </div>
@@ -90,12 +117,31 @@ const showCardDetail = cardDetail =>{
   `
 }
 // -------------------------
-// const toggleSpinner = isLoading =>{
-//   const loaderSection = document.getElementById('loader');
-//   if(isLoading){
-//     loaderSection.classList.remove('d-none');
-//   }
-// }
+const processSearch = (datalimit) =>{
+   loadCards(datalimit)
+}
 
+// document.getElementById('btn-show-more').addEventListener('click', function(){
+//   toggleSpinner(true);
+// })
+
+const toggleSpinner = isLoading =>{
+  const loaderSection = document.getElementById('loader');
+  if(isLoading){
+    loaderSection.classList.remove('d-none');
+  }
+  else{
+    loaderSection.classList.add('d-none')
+  }
+}
+
+
+document.getElementById('btn-show-more').addEventListener('click', function(){
+  toggleSpinner(true);
+  processSearch()
+})
 
 loadCards();
+
+
+
