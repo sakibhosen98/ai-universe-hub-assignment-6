@@ -71,7 +71,7 @@ const showCardDetail = cardDetail =>{
   // let integration = integrations.map(a=>(`<p>${a}</p>`)).join("");
   modalBody.innerHTML = `
     <div class="border p-3">
-      <h6 class="fw-bold">${description}</h6>
+      <h3 class="fw-bold">${description}</h3>
       <div>
         <div class="d-flex justify-content-between align-items-center gap-2">
           ${pricing?`
@@ -137,7 +137,6 @@ const toggleSpinner = isLoading =>{
     loaderSection.classList.add('d-none')
   }
 }
-
 
 document.getElementById('btn-show-more').addEventListener('click', function(){
   const loadCards = () =>{
