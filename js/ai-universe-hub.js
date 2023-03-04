@@ -1,3 +1,4 @@
+// fetch api link
 const loadCards = () =>{
   const url = `https://openapi.programming-hero.com/api/ai/tools`;
   fetch(url)
@@ -6,11 +7,11 @@ const loadCards = () =>{
   toggleSpinner(true);
 }
 
+// display all cards
 const showCards = (cards) =>{
+  // get cards container
 const cardsContainer = document.getElementById('cards-container');
-
 cardsContainer.innerHTML = '';
-
   cards.forEach(card => {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('col');
@@ -46,13 +47,7 @@ cardsContainer.innerHTML = '';
   toggleSpinner(false)
   
 }
-// ---------------------------------call function
-const CardDescription = (allData) =>{
-  for(const singleData of allData.length){
-    console.log(singleData)
-  }
-  return singleData;
-}
+
 // fetch new url for id
 
 const fetchNewDetail = new_id =>{
@@ -65,26 +60,21 @@ const fetchNewDetail = new_id =>{
 
 // Modal ------------------------
 const showCardDetail = cardDetail =>{
-  const {description,image_link,features,input_output_examples,integrations,pricing} = cardDetail;
-  console.log(cardDetail)
+  const {description,image_link,features,input_output_examples,integrations,pricing,accuracy} = cardDetail;
   const modalBody = document.getElementById('modal-body');
-  // let integration = integrations.map(a=>(`<p>${a}</p>`)).join("");
   modalBody.innerHTML = `
     <div class="border p-3">
       <h3 class="fw-bold">${description}</h3>
       <div>
         <div class="d-flex justify-content-between align-items-center gap-2">
           ${pricing?`
-            <span class="border p-2">${pricing[0]? pricing[0].price: ''} ${pricing[0]? pricing[0].plan: ''}</span>
-            <span class="border p-2">${pricing[1]? pricing[1].price: ''} ${pricing[1]? pricing[1].plan: ''}</span>
-            <span class="border p-2">${pricing[2]? pricing[2].price: ''} ${pricing[2]? pricing[2].plan: ''}</span>
+            <span class="border text-danger fw-bold p-4">${pricing[0]? pricing[0].price: ''} ${pricing[0]? pricing[0].plan: ''}</span>
+            <span class="border text-danger fw-bold p-4">${pricing[1]? pricing[1].price: ''} ${pricing[1]? pricing[1].plan: ''}</span>
+            <span class="border text-danger fw-bold p-4">${pricing[2]? pricing[2].price: ''} ${pricing[2]? pricing[2].plan: ''}</span>
           `: '$10'}
         </div>
-        <div>
-        </div>
-        <div></div>
       </div>
-      <div class="d-flex gap-1">
+      <div class="d-flex justify-content-center gap-3 mt-4">
         <div>
           <h3>Features</h3>
             <ul>
@@ -108,10 +98,12 @@ const showCardDetail = cardDetail =>{
     </div>
 
     <div>
-    <div class="card positon-relative">
-    <img src=${image_link[0]} class="card-img-top" alt="...">
-    <button type="button" class="btn btn-danger positon-absolute top-0 end-0" data-bs-dismiss="modal">acco</button>
-    <div class="card-body">
+    <div class="card">
+      <div class="position-relative">
+        <img src=${image_link[0]} class="card-img-top" alt="...">
+        <span class="btn btn-danger position-absolute top-0 end-0">94% accuracy</span>
+      </div>
+    <div class="card-body mt-4">
     ${
       input_output_examples?`
       <h3>${input_output_examples[0]? input_output_examples[0].input: ''}</h3>
@@ -125,9 +117,7 @@ const showCardDetail = cardDetail =>{
 
   `
 }
-// -------------------------
-
-
+//  Loading pard
 const toggleSpinner = isLoading =>{
   const loaderSection = document.getElementById('loader');
   if(isLoading){
@@ -138,6 +128,7 @@ const toggleSpinner = isLoading =>{
   }
 }
 
+// show more btn part
 document.getElementById('btn-show-more').addEventListener('click', function(){
   const loadCards = () =>{
     const url = `https://openapi.programming-hero.com/api/ai/tools`;
@@ -150,10 +141,8 @@ document.getElementById('btn-show-more').addEventListener('click', function(){
 })
 
 
-
 loadCards();
 
 
 
 
-/* <p class="border p-2">${pricing[0].price} ${pricing[0].plan}</p> */
