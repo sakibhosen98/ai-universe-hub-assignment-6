@@ -58,7 +58,7 @@ const fetchNewDetail = new_id =>{
 }
 
 
-// Modal ------------------------
+// Modal part ----------------
 const showCardDetail = cardDetail =>{
   const {description,image_link,features,input_output_examples,integrations,pricing,accuracy} = cardDetail;
   const modalBody = document.getElementById('modal-body');
