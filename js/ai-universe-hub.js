@@ -1,21 +1,16 @@
 const loadCards = () =>{
-  fetch('https://openapi.programming-hero.com/api/ai/tools')
+  const url = `https://openapi.programming-hero.com/api/ai/tools`;
+  fetch(url)
   .then(res => res.json())
   .then(data => showCards(data.data.tools.slice(0, 6)))
   toggleSpinner(true);
 }
 
 const showCards = (cards) =>{
-  const cardsContainer = document.getElementById('cards-container');
+const cardsContainer = document.getElementById('cards-container');
+
 // Display 6 cards only
-// const showMore = document.getElementById('show-more');
-// if(cards.length > 6){
-//   cards = cards.slice(0, 6);
-//   showMore.classList.remove('d-none');
-// }
-// else{
-//   showMore.classList.add('d-none')
-// }
+
   cards.forEach(card => {
     const cardDiv = document.createElement('div');
     cardDiv.classList.add('col');
@@ -120,6 +115,7 @@ const showCardDetail = cardDetail =>{
 }
 // -------------------------
 
+
 const toggleSpinner = isLoading =>{
   const loaderSection = document.getElementById('loader');
   if(isLoading){
@@ -129,6 +125,19 @@ const toggleSpinner = isLoading =>{
     loaderSection.classList.add('d-none')
   }
 }
+
+
+document.getElementById('btn-show-more').addEventListener('click', function(){
+  const loadCards = () =>{
+    const url = `https://openapi.programming-hero.com/api/ai/tools`;
+    fetch(url)
+    .then(res => res.json())
+    .then(data => showCards(data.data.tools.slice(0, 6)))
+    toggleSpinner(true);
+  }
+  loadCards();
+})
+
 
 
 loadCards();
