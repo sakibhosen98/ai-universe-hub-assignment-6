@@ -9,7 +9,7 @@ const loadCards = () =>{
 const showCards = (cards) =>{
 const cardsContainer = document.getElementById('cards-container');
 
-// Display 6 cards only
+cardsContainer.innerHTML = '';
 
   cards.forEach(card => {
     const cardDiv = document.createElement('div');
@@ -68,21 +68,23 @@ const showCardDetail = cardDetail =>{
   const {description,image_link,features,input_output_examples,integrations,pricing} = cardDetail;
   console.log(cardDetail)
   const modalBody = document.getElementById('modal-body');
-  let integration = integrations.map(a=>(`<li>${a}</li>`)).join("");
+  // let integration = integrations.map(a=>(`<p>${a}</p>`)).join("");
   modalBody.innerHTML = `
     <div class="border p-3">
       <h6 class="fw-bold">${description}</h6>
       <div>
         <div class="d-flex justify-content-between align-items-center gap-2">
-          <p class="border p-2">${pricing[0].price} ${pricing[0].plan}</p>
-          <p class="border p-2">${pricing[1].price} ${pricing[1].plan}</p>
-          <p class="border p-2">${pricing[2].price} ${pricing[2].plan}</p>
+          ${pricing?`
+            <span class="border p-2">${pricing[0]? pricing[0].price: ''} ${pricing[0]? pricing[0].plan: ''}</span>
+            <span class="border p-2">${pricing[1]? pricing[1].price: ''} ${pricing[1]? pricing[1].plan: ''}</span>
+            <span class="border p-2">${pricing[2]? pricing[2].price: ''} ${pricing[2]? pricing[2].plan: ''}</span>
+          `: '$10'}
         </div>
         <div>
         </div>
         <div></div>
       </div>
-      <div class="d-flex">
+      <div class="d-flex gap-1">
         <div>
           <h3>Features</h3>
             <ul>
@@ -93,9 +95,14 @@ const showCardDetail = cardDetail =>{
         </div>
         <div>
           <h3>integrations</h3>
-          <ul>
-          ${integration ? integration : 'data not found'};
-          </ul>
+          
+              ${
+                integrations?`
+                  <span class="d-block">${integrations[0]? integrations[0]: ''}</span>
+                  <span class="d-block">${integrations[1]? integrations[1]: ''}</span>
+                  <span class="d-block">${integrations[2]? integrations[2]: ''}</span>
+                `: 'not found'}
+          
         </div>
       </div>
     </div>
@@ -105,8 +112,13 @@ const showCardDetail = cardDetail =>{
     <img src=${image_link[0]} class="card-img-top" alt="...">
     <button type="button" class="btn btn-danger positon-absolute top-0 end-0" data-bs-dismiss="modal">acco</button>
     <div class="card-body">
-      </h4 class="fw-bold fs-3">${input_output_examples[0].input}</h4>
-      <p class="card-text">${input_output_examples[0].output}</p>
+    ${
+      input_output_examples?`
+      <h3>${input_output_examples[0]? input_output_examples[0].input: ''}</h3>
+      <p>${input_output_examples[1]? input_output_examples[1].output: ''}</p>
+      `: 'No! Not Yet! Take a break!!!'
+    }
+      
     </div>
   </div>
     </div>
@@ -132,7 +144,7 @@ document.getElementById('btn-show-more').addEventListener('click', function(){
     const url = `https://openapi.programming-hero.com/api/ai/tools`;
     fetch(url)
     .then(res => res.json())
-    .then(data => showCards(data.data.tools.slice(0, 6)))
+    .then(data => showCards(data.data.tools))
     toggleSpinner(true);
   }
   loadCards();
@@ -145,3 +157,4 @@ loadCards();
 
 
 
+/* <p class="border p-2">${pricing[0].price} ${pricing[0].plan}</p> */
